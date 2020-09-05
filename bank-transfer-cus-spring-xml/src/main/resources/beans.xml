@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--跟标签beans，里面配置一个又一个的bean子标签，每一个bean子标签都代表一个类的配置-->
+<beans>
+    <!--id标识对象，class是类的全限定类名-->
+    <bean id="accountDao" class="com.github.codingdebugallday.dao.impl.JdbcAccountDaoImpl">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+    <bean id="transferService" class="com.github.codingdebugallday.service.impl.TransferServiceImpl">
+        <!--set+ name 之后锁定到传值的set方法了，通过反射技术可以调用该方法传入对应的值-->
+        <property name="AccountDao" ref="accountDao" />
+    </bean>
+
+    <!-- 连接池工具类-->
+    <bean id="connectionUtils" class="com.github.codingdebugallday.utils.ConnectionUtils" />
+
+    <!--事务管理器-->
+    <bean id="transactionManager" class="com.github.codingdebugallday.utils.TransactionManager">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+
+    <!--代理对象工厂-->
+    <bean id="proxyFactory" class="com.github.codingdebugallday.factory.ProxyFactory">
+        <property name="TransactionManager" ref="transactionManager"/>
+    </bean>
+</beans>

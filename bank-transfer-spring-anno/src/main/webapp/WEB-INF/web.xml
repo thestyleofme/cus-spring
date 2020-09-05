@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="4.0"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <display-name>Archetype Created Web Application</display-name>
+
+    <!--告诉ContextLoaderListener我们使用注解的方式启动IOC容器-->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <!-- 配置启动类的全限定类名-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>com.github.codingdebugallday.SpringConfiguration</param-value>
+    </context-param>
+    <!-- 使用监听器启动spring的IOC容器-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+</web-app>

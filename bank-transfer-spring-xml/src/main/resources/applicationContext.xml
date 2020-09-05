@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--跟标签beans，里面配置一个又一个的bean子标签，每一个bean子标签都代表一个类的配置-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--id标识对象，class是类的全限定类名-->
+    <!--scope：定义bean的作用范围
+        singleton: 单例，IOC容器中只有一个该类对象，默认值
+        prototype: 原型（多例），每次使用该类对象（getBean），都返回一个新的对象，spring只负责创建，不负责管理，最终被jvm回收
+    -->
+    <bean id="accountDao" class="com.github.codingdebugallday.dao.impl.JdbcAccountDaoImpl"
+    init-method="init" destroy-method="destroy">
+        <!--set注入使用property标签，如果注入的是另外一个bean那么使用ref属性，如果注入的是普通值那么使用的是value属性-->
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+    <bean id="transferService" class="com.github.codingdebugallday.service.impl.TransferServiceImpl">
+        <!--set+ name 之后锁定到传值的set方法了，通过反射技术可以调用该方法传入对应的值-->
+        <property name="AccountDao" ref="accountDao"/>
+    </bean>
+
+    <!-- spring ioc 实例化bean的三种方式-->
+    <!--方式一：使用无参构造（推荐）-->
+    <bean id="connectionUtils" class="com.github.codingdebugallday.utils.ConnectionUtils"/>
+
+    <!--另外两种方式是为了我们自己new的对象加入到spring ioc容器管理-->
+    <!--方式二：静态方法-->
+    <!--<bean id="connectionUtils" class="com.github.codingdebugallday.factory.CreateBeanFactory"
+          factory-method="getInstanceStatic"/>-->
+    <!--方式三：实例化方法-->
+    <!--<bean id="createBeanFactory" class="com.github.codingdebugallday.factory.CreateBeanFactory"/>
+    <bean id="connectionUtils" factory-bean="createBeanFactory" factory-method="getInstance"/>-->
+
+    <!--事务管理器-->
+    <bean id="transactionManager" class="com.github.codingdebugallday.utils.TransactionManager">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+
+    <!--代理对象工厂-->
+    <bean id="proxyFactory" class="com.github.codingdebugallday.factory.ProxyFactory">
+        <property name="TransactionManager" ref="transactionManager"/>
+    </bean>
+</beans>
