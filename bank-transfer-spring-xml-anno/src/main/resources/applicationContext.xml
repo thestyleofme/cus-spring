@@ -2,11 +2,14 @@
 <!-- 可在beans便签里设置全局懒加载 default-lazy-init="true"-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
 ">
 
     <!-- 开启注解扫描-->
@@ -25,10 +28,31 @@
 
     <!--测试懒加载bean-->
     <bean id="lazyResult" class="com.github.codingdebugallday.pojo.Result"
-    init-method="initMethod" destroy-method="destroyMethod"/>
+          init-method="initMethod" destroy-method="destroyMethod"/>
 
     <!--测试FactoryBean，帮我们生成复杂bean-->
     <bean id="companyBean" class="com.github.codingdebugallday.factory.CompanyFactoryBean">
         <property name="companyInfo" value="alibaba,hangzhou,10000"/>
     </bean>
+
+    <!-- aop 相关配置
+    proxy-target-class=true 强制使用cglib
+    -->
+    <aop:aspectj-autoproxy/>
+
+    <!--横切逻辑bean-->
+    <!--<bean id="logUtils" class="com.github.codingdebugallday.utils.LogUtils"/>
+    <aop:config>
+        <aop:aspect id="logAspect" ref="logUtils">
+            &lt;!&ndash; 切入点 可多个&ndash;&gt;
+            <aop:pointcut id="pointcut1"
+                          expression="execution(* com.github.codingdebugallday.service.impl.TransferServiceImpl.transfer(String, String, java.math.BigDecimal))"/>
+            &lt;!&ndash;            <aop:before method="before" pointcut-ref="pointcut1"/>&ndash;&gt;
+            &lt;!&ndash;            <aop:after method="after" pointcut-ref="pointcut1"/>&ndash;&gt;
+            &lt;!&ndash;            <aop:after-returning method="success" returning="retVal" pointcut-ref="pointcut1"/>&ndash;&gt;
+            &lt;!&ndash;            <aop:after-throwing method="exception" pointcut-ref="pointcut1"/>&ndash;&gt;
+            <aop:around method="around" pointcut-ref="pointcut1"/>
+        </aop:aspect>
+    </aop:config>-->
+
 </beans>

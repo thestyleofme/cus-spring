@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0.0
  */
 @Service("transferService")
-// @Lazy
+@EnableTransactionManagement
 public class TransferServiceImpl implements TransferService {
 
     private final Logger logger = LoggerFactory.getLogger(TransferServiceImpl.class);
@@ -31,7 +33,8 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public void transfer(String fromCardNo, String toCardNo, BigDecimal money) throws Exception {
+    @Transactional(rollbackFor = Exception.class)
+    public void transfer(String fromCardNo, String toCardNo, BigDecimal money) {
         logger.debug("执行转账业务逻辑");
         Account from = accountDao.queryAccountByCardNo(fromCardNo);
         Account to = accountDao.queryAccountByCardNo(toCardNo);
@@ -41,7 +44,7 @@ public class TransferServiceImpl implements TransferService {
 
         accountDao.updateAccountByCardNo(to);
         // 抛异常 测试事务
-        // int c = 1 / 0;
+        int c = 1 / 0;
         accountDao.updateAccountByCardNo(from);
     }
 }

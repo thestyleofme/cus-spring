@@ -22,6 +22,7 @@
         <module>bank-transfer-spring-xml</module>
         <module>bank-transfer-spring-xml-anno</module>
         <module>bank-transfer-spring-anno</module>
+        <module>bank-transfer-transaction</module>
     </modules>
 
 
