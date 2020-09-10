@@ -1,5 +1,12 @@
 ### bank-transfer-cus-spring-xml
-> 基于银行转账demo，基于xml方式手写spring，实现IOC以及事务控制AOP
+> 主要关注此模块即可
+>
+> 基于银行转账demo，基于xml方式手写spring，实现IOC以及事务控制
+
+### bank-transfer-cus-spring-xml-anno
+> 主要关注此模块即可
+>
+> 基于银行转账demo，基于xml方式和自定义注解组合的方式手写spring，实现IOC以及事务控制
 
 ### bank-transfer-spring-xml
 > 基于原生spring xml方式
