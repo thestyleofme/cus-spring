@@ -104,21 +104,18 @@ public class BeanFactory {
         }
     }
 
-    private static void doAutoWired(Class<?> clazz, Object bean) throws InvocationTargetException, IllegalAccessException {
+    private static void doAutoWired(Class<?> clazz, Object bean) throws IllegalAccessException {
         // 获取该类所有属性
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            if (field.isAnnotationPresent(AutoWired.class) &&
-                    field.getAnnotation(AutoWired.class).required()) {
-                String[] names = field.getName().split("\\.");
-                String name = names[names.length - 1];
-                Method[] methods = clazz.getMethods();
-                for (Method method : methods) {
-                    if (method.getName().equalsIgnoreCase("set" + name)) {
-                        // 调用set方法注入 如 setAccountDao
-                        method.invoke(bean, MAP.get(toLowerFirstCase(name)));
-                    }
+            AutoWired autoWired = field.getAnnotation(AutoWired.class);
+            if (field.isAnnotationPresent(AutoWired.class) && autoWired.required()) {
+                String beanName = autoWired.value().trim();
+                if ("".equals(beanName)) {
+                    beanName = field.getName();
                 }
+                field.setAccessible(true);
+                field.set(bean, MAP.get(toLowerFirstCase(beanName)));
             }
         }
     }

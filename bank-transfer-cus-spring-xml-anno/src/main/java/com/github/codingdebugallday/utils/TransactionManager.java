@@ -19,10 +19,6 @@ public class TransactionManager {
     @AutoWired
     private ConnectionUtils connectionUtils;
 
-    public void setConnectionUtils(ConnectionUtils connectionUtils) {
-        this.connectionUtils = connectionUtils;
-    }
-
     /**
      * 开启手动事务控制
      */

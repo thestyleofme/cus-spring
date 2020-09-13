@@ -23,15 +23,6 @@ public class TransferServiceImpl implements TransferService {
     @AutoWired
     private AccountDao accountDao;
 
-    /**
-     * 构造函数传值/set方法传值
-     *
-     * @param accountDao AccountDao
-     */
-    public void setAccountDao(AccountDao accountDao) {
-        this.accountDao = accountDao;
-    }
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void transfer(String fromCardNo, String toCardNo, BigDecimal money) throws Exception {

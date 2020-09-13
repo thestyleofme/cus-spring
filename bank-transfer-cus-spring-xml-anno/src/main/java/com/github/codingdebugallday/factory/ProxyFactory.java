@@ -23,10 +23,6 @@ public class ProxyFactory {
     @AutoWired
     private TransactionManager transactionManager;
 
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
-
     /**
      * Jdk动态代理
      *
