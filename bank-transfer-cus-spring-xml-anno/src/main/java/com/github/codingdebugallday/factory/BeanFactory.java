@@ -91,7 +91,7 @@ public class BeanFactory {
         }
     }
 
-    private static void doAnnoDependency() throws InvocationTargetException, IllegalAccessException {
+    private static void doAnnoDependency() throws IllegalAccessException {
         for (Map.Entry<String, Object> entry : MAP.entrySet()) {
             Object bean = entry.getValue();
             Class<?> clazz = bean.getClass();
